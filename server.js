@@ -15,14 +15,13 @@ app.post("/checkout", async (req, res) => {
         { customer: customer.id },
         { apiVersion: '2020-08-27' },
     );
-
     // Create a PaymentIntent with the payment amount, currency, and customer
     const paymentIntent = await stripe.paymentIntents.create({
         amount: req.body.price,
-        currency: "eur",
+        currency: 'eur',
         customer: customer.id,
+        payment_method_types: ['card'],
     });
-
     // Send the object keys to the client
     res.send({
         publishableKey: process.env.publishable_key, // https://stripe.com/docs/keys#obtain-api-keys
